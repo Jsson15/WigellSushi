@@ -27,7 +27,7 @@ public class CustomerController {
     private TakeAwayService takeAwayService;
 
 
-    @GetMapping(value = "/sushis")
+    @GetMapping(value = "/dishes")
     public ResponseEntity<List<Dishes>> getAllDishes() {
         return ResponseEntity.ok(menyService.getAllDishes());
     }
