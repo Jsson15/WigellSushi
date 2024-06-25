@@ -4,6 +4,28 @@ CREATE SCHEMA IF NOT EXISTS wigellsdb;
 -- Använd schema
 USE wigellsdb;
 
+
+-- Visa all data från sushi_customers
+SELECT * FROM wigellsdb.sushi_customers;
+
+-- Visa all data från sushi_rooms
+SELECT * FROM wigellsdb.sushi_rooms;
+
+-- Visa all data från sushi_customerorders
+SELECT * FROM wigellsdb.sushi_customerorders;
+
+-- Visa all data från sushi_bookings
+SELECT * FROM wigellsdb.sushi_bookings;
+
+-- Visa all data från sushi_dishes
+SELECT * FROM wigellsdb.sushi_dishes;
+
+-- Visa all data från sushi_order_dish
+SELECT * FROM wigellsdb.sushi_order_dish;
+
+
+
+
 -- Skapa tabeller
 
 -- Tabell för kunder
