@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "dishBooking")
+@Table(name = "sushi_order_dish")
 public class DishBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

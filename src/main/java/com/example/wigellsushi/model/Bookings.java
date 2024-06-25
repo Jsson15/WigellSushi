@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 @Entity
-@Table(name = "bookings")
+@Table(name = "sushi_bookings")
 public class Bookings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
