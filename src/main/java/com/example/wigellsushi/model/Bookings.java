@@ -1,14 +1,12 @@
 package com.example.wigellsushi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 @Entity
 @Table(name = "sushi_bookings")
 public class Bookings {
@@ -17,40 +15,38 @@ public class Bookings {
     @Column(name = "bookingID")
     private int bookingID;
 
-
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userID")
     @Valid
     private User user;
 
-    @Column(name ="numberOfGuests")
+    @Column(name = "numberOfGuests")
     @NotNull
     private int numberOfGuests;
 
-    @JoinColumn(name ="roomID")
+    @JoinColumn(name = "roomID")
     @NotNull
     private int roomID;
 
     @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name ="bookingID")
+    @JoinColumn(name = "bookingID")
     @Valid
     private List<DishBooking> dishBooking;
 
-    @Column(name ="isActive")
+    @Column(name = "isActive")
     private boolean isActive;
 
-    @Column(name ="totalPriceEuro")
+    @Column(name = "totalPriceEuro")
     private BigDecimal totalPriceEuro;
+
     @NotNull
-    @Column(name ="totalPriceSek")
+    @Column(name = "totalPriceSek")
     private BigDecimal totalPriceSek;
 
-
     public Bookings() {
-
     }
 
-    public Bookings(int bookingID, User user, int numberOfGuests, int roomID, List<DishBooking> dishBooking, BigDecimal totalPriceEuro, BigDecimal totalPriceSek) {
+    public Bookings(int bookingID, User user, int numberOfGuests, int roomID, List<DishBooking> dishBooking, BigDecimal totalPriceEuro, BigDecimal totalPriceSek, boolean isActive) {
         this.bookingID = bookingID;
         this.user = user;
         this.numberOfGuests = numberOfGuests;
@@ -58,6 +54,7 @@ public class Bookings {
         this.dishBooking = dishBooking;
         this.totalPriceEuro = totalPriceEuro;
         this.totalPriceSek = totalPriceSek;
+        this.isActive = isActive;
     }
 
     public int getBookingID() {
@@ -80,14 +77,6 @@ public class Bookings {
         return numberOfGuests;
     }
 
-    public List<DishBooking> getDishBooking() {
-        return dishBooking;
-    }
-
-    public void setDishBooking(List<DishBooking> dishBooking) {
-        this.dishBooking = dishBooking;
-    }
-
     public void setNumberOfGuests(int numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
     }
@@ -100,7 +89,15 @@ public class Bookings {
         this.roomID = roomID;
     }
 
-    public boolean getActive() {
+    public List<DishBooking> getDishBooking() {
+        return dishBooking;
+    }
+
+    public void setDishBooking(List<DishBooking> dishBooking) {
+        this.dishBooking = dishBooking;
+    }
+
+    public boolean isActive() {
         return isActive;
     }
 

@@ -15,12 +15,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
 
 @Service
 public class BookingService implements BookingServiceInterface {
@@ -56,7 +53,7 @@ public class BookingService implements BookingServiceInterface {
         } else {
             room.setIsBooked(true);
             bookingsRepository.save(booking);
-            for (DishBooking db : booking.getDishBooking()){
+            for (DishBooking db : booking.getDishBooking()) {
                 db.setBooking(booking);
             }
             dishBookingRepository.saveAll(booking.getDishBooking());
@@ -67,15 +64,14 @@ public class BookingService implements BookingServiceInterface {
         }
     }
 
-
     @Override
-    public Bookings updateBooking (Bookings booking,int bookingID){
+    public Bookings updateBooking(Bookings booking, int bookingID) {
         Bookings bookingToUpdate = bookingsRepository.findBookingsByBookingID(bookingID);
 
         bookingToUpdate.setNumberOfGuests(booking.getNumberOfGuests());
         bookingToUpdate.setRoomID(booking.getRoomID());
 
-        bookingToUpdate.setActive(booking.getActive());
+        bookingToUpdate.setActive(booking.isActive());
         BigDecimal totalPriceSEK = calculateTotalPriceSEK(booking);
         bookingToUpdate.setTotalPriceSek(totalPriceSEK);
         try {
@@ -85,12 +81,11 @@ public class BookingService implements BookingServiceInterface {
         }
         dishBookingRepository.deleteAll(bookingToUpdate.getDishBooking());
 
-
         bookingToUpdate.setDishBooking(null);
         bookingsRepository.save(bookingToUpdate);
 
-        for (DishBooking db : booking.getDishBooking()){
-            db.setBooking(booking);
+        for (DishBooking db : booking.getDishBooking()) {
+            db.setBooking(bookingToUpdate);
         }
         dishBookingRepository.saveAll(booking.getDishBooking());
 
@@ -100,8 +95,7 @@ public class BookingService implements BookingServiceInterface {
         return bookingToUpdate;
     }
 
-    private BigDecimal calculateTotalPriceSEK (Bookings booking){
-
+    private BigDecimal calculateTotalPriceSEK(Bookings booking) {
         BigDecimal totalPriceSEK = new BigDecimal(0);
         List<Dishes> dishesList = menyService.getAllDishes();
         for (Dishes dish : dishesList) {
@@ -109,15 +103,10 @@ public class BookingService implements BookingServiceInterface {
                 if (dishBooking.getDish().getDishID() == dish.getDishID()) {
                     BigDecimal price = dish.getPriceSek().multiply(BigDecimal.valueOf(dishBooking.getQuantity()));
                     totalPriceSEK = totalPriceSEK.add(price);
-
                 }
             }
-
         }
-
         return totalPriceSEK;
-
-
     }
 
     private BigDecimal calculateTotalPriceEuro(BigDecimal sek) throws IOException {
@@ -147,7 +136,7 @@ public class BookingService implements BookingServiceInterface {
         return totalPriceEuro;
     }
 
-    public static String stream (URL url){
+    public static String stream(URL url) {
         try (InputStream input = url.openStream()) {
             InputStreamReader isr = new InputStreamReader(input);
             BufferedReader reader = new BufferedReader(isr);
@@ -163,13 +152,7 @@ public class BookingService implements BookingServiceInterface {
     }
 
     @Override
-    public List<Bookings> getAllBookings ( int userID){
-        List<Bookings> getAllBookings = bookingsRepository.findBookingsByUser(userRepository.findById(userID).get());
-
-        return getAllBookings;
-
+    public List<Bookings> getAllBookings(int userID) {
+        return bookingsRepository.findBookingsByUser(userRepository.findById(userID).get());
     }
-
-
-
 }

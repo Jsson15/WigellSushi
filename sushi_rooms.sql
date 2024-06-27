@@ -1,5 +1,5 @@
 -- rooms.sql
 -- Insert Rooms into wigellsdb.sushi_rooms
-INSERT INTO wigellsdb.sushi_rooms (id, name, max_guests, equipment) VALUES 
-(1, 'Room A', 8, 'Projector'),
-(2, 'Room B', 5, null);
+INSERT INTO sushi_rooms (id, name, max_guests, equipment) VALUES 
+(1, 'Room 101', 10, 'Projector, Whiteboard'),
+(2, 'Room 102', 20, 'TV, Conference Phone');

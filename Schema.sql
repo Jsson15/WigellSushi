@@ -26,19 +26,18 @@ SELECT * FROM wigellsdb.sushi_order_dish;
 
 
 
--- Skapa tabeller
 
 -- Tabell för kunder
 CREATE TABLE IF NOT EXISTS sushi_customers (
-    id INT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    name VARCHAR(100) NOT NULL,
+    userid INT AUTO_INCREMENT PRIMARY KEY,
+    userName VARCHAR(50) NOT NULL,
+    userfullname VARCHAR(100) NOT NULL,
     address VARCHAR(255) NOT NULL
 );
 
 -- Tabell för rum
 CREATE TABLE IF NOT EXISTS sushi_rooms (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     max_guests INT NOT NULL,
     equipment VARCHAR(255)
@@ -46,7 +45,7 @@ CREATE TABLE IF NOT EXISTS sushi_rooms (
 
 -- Tabell för kundorder
 CREATE TABLE IF NOT EXISTS sushi_customerorders (
-    id INT PRIMARY KEY,
+    userID INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
     total_price_sek DECIMAL(10, 2) NOT NULL,
     total_price_euro DECIMAL(10, 2) NOT NULL,
@@ -56,25 +55,27 @@ CREATE TABLE IF NOT EXISTS sushi_customerorders (
 
 -- Tabell för bokningar
 CREATE TABLE IF NOT EXISTS sushi_bookings (
-    id INT PRIMARY KEY,
-    customer_id INT,
-    number_of_guests INT NOT NULL,
-    date DATE NOT NULL,
-    total_price_sek DECIMAL(10, 2) NOT NULL,
-    total_price_euro DECIMAL(10, 2) NOT NULL,
-    room_id INT,
-    customer_order_id INT,
-    FOREIGN KEY (customer_id) REFERENCES sushi_customers(id),
-    FOREIGN KEY (room_id) REFERENCES sushi_rooms(id),
-    FOREIGN KEY (customer_order_id) REFERENCES sushi_customerorders(id)
+    bookingID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT,
+    numberOfGuests INT NOT NULL,
+    roomID INT NOT NULL,
+    bookingDate DATE NOT NULL,
+    isActive BOOLEAN,
+    totalPriceEuro DECIMAL(10, 2),
+    totalPriceSek DECIMAL(10, 2) NOT NULL,
+    customerOrderID INT,
+    FOREIGN KEY (userID) REFERENCES sushi_customers(id),
+    FOREIGN KEY (roomID) REFERENCES sushi_rooms(id),
+    FOREIGN KEY (customerOrderID) REFERENCES sushi_customerorders(id)
 );
 
+-- Tabell för rätter
 CREATE TABLE IF NOT EXISTS sushi_dishes (
-                                            dishID INT AUTO_INCREMENT PRIMARY KEY,
-                                            dishName VARCHAR(50) NOT NULL,
-                                            ingredients VARCHAR(100),
-                                            priceEuro DECIMAL(10, 2) NOT NULL,
-                                            priceSek DECIMAL(10, 2) NOT NULL
+    dishID INT AUTO_INCREMENT PRIMARY KEY,
+    dish_name VARCHAR(50) NOT NULL,
+    ingredients VARCHAR(100),
+    price_euro DECIMAL(10, 2) NOT NULL,
+    price_sek DECIMAL(10, 2) NOT NULL
 );
 
 -- Tabell för relationer mellan order och rätter
@@ -83,6 +84,7 @@ CREATE TABLE IF NOT EXISTS sushi_order_dish (
     dish_id INT,
     PRIMARY KEY (order_id, dish_id),
     FOREIGN KEY (order_id) REFERENCES sushi_customerorders(id),
-    FOREIGN KEY (dish_id) REFERENCES sushi_dishes(id)
+    FOREIGN KEY (dish_id) REFERENCES sushi_dishes(dishID)
 );
+
 

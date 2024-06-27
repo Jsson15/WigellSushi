@@ -31,11 +31,11 @@ public class User {
     public User() {
     }
 
-    public User(int userID, String userName, String userFullName, String adress) {
+    public User(int userID, String userName, String userFullName, String address) {
         this.userID = userID;
         this.userName = userName;
         this.userFullName = userFullName;
-        this.address = adress;
+        this.address = address;
     }
 
     public int getUserID() {

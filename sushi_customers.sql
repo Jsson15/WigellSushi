@@ -1,5 +1,6 @@
 -- customers.sql
 -- Insert Customers into wigellsdb.sushi_customers
-INSERT INTO wigellsdb.sushi_customers (id, username, name, address) VALUES 
-(1, 'custuser1', 'Customer One', 'Address One'),
-(2, 'custuser2', 'Customer Two', 'Address Two');
+-- Exempeldata för kunder
+INSERT INTO sushi_customers (userid, username, userfullname, address) VALUES
+                                                              (1, 'johndoe', 'John Doe', '123 Main St'),
+                                                              (2, 'janedoe', 'Jane Doe', '456 Maple Ave');
