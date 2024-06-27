@@ -69,12 +69,12 @@ CREATE TABLE IF NOT EXISTS sushi_bookings (
     FOREIGN KEY (customer_order_id) REFERENCES sushi_customerorders(id)
 );
 
--- Tabell för rätter
 CREATE TABLE IF NOT EXISTS sushi_dishes (
-    id INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price_sek DECIMAL(10, 2) NOT NULL,
-    price_euro DECIMAL(10, 2) NOT NULL
+                                            dishID INT AUTO_INCREMENT PRIMARY KEY,
+                                            dishName VARCHAR(50) NOT NULL,
+                                            ingredients VARCHAR(100),
+                                            priceEuro DECIMAL(10, 2) NOT NULL,
+                                            priceSek DECIMAL(10, 2) NOT NULL
 );
 
 -- Tabell för relationer mellan order och rätter

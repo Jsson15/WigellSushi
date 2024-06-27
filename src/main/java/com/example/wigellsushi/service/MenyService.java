@@ -3,6 +3,7 @@ package com.example.wigellsushi.service;
 import com.example.wigellsushi.logging.Log4j;
 import com.example.wigellsushi.execption.ResourceNotFoundException;
 import com.example.wigellsushi.model.Dishes;
+import com.example.wigellsushi.repository.DishesRepository;
 import com.example.wigellsushi.repository.MenyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 @Service
 public class MenyService implements MenyServiceInterface{
     @Autowired
-    private MenyRepository dishesRepository;
+    private DishesRepository dishesRepository;
 
     @Override
     public List<Dishes> getAllDishes() {

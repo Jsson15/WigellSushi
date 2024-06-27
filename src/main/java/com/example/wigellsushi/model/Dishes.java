@@ -13,7 +13,7 @@ public class Dishes {
     @Column(name = "dishID")
     private int dishID;
     @NotNull(message = "Dish name cannot be null")
-    @Column(name = "dishName")
+    @Column(name = "dish_Name")
     private String dishName;
 
     @NotNull(message = "Ingredients cannot be null")
@@ -22,10 +22,10 @@ public class Dishes {
     private String ingredients;
 
     @NotNull(message = "Price cannot be null")
-    @Column(name = "priceEuro")
+    @Column(name = "price_Euro")
     private BigDecimal priceEuro;
     @NotNull(message = "Price cannot be null")
-    @Column(name = "priceSek")
+    @Column(name = "price_Sek")
     private BigDecimal priceSek;
 
     public Dishes() {
