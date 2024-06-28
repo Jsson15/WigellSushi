@@ -5,10 +5,8 @@ import com.example.wigellsushi.model.Dishes;
 import java.util.List;
 
 public interface MenyServiceInterface {
-    List<Dishes> getAllDishes();
     Dishes addDishes(Dishes dishes);
+    List<Dishes> getAllDishes();
     void deleteDish(int dishID);
-
-
 }
 

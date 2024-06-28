@@ -6,14 +6,15 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name ="sushi_dishes")
+@Table(name = "sushi_dishes")
 public class Dishes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dishID")
     private int dishID;
+
     @NotNull(message = "Dish name cannot be null")
-    @Column(name = "dish_Name")
+    @Column(name = "dishName")
     private String dishName;
 
     @NotNull(message = "Ingredients cannot be null")
@@ -22,10 +23,11 @@ public class Dishes {
     private String ingredients;
 
     @NotNull(message = "Price cannot be null")
-    @Column(name = "price_Euro")
+    @Column(name = "priceEuro")
     private BigDecimal priceEuro;
+
     @NotNull(message = "Price cannot be null")
-    @Column(name = "price_Sek")
+    @Column(name = "priceSek")
     private BigDecimal priceSek;
 
     public Dishes() {
@@ -79,4 +81,3 @@ public class Dishes {
         this.priceSek = priceSek;
     }
 }
-

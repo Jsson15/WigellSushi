@@ -1,0 +1,16 @@
+2024-06-28 00:17:55,256 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@6bd8922e
+2024-06-28 00:18:36,476 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@b9807d5
+2024-06-28 00:23:09,620 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@11c4d316
+2024-06-28 00:30:53,989 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@7f0d9afc
+2024-06-28 08:56:48,621 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@40494bf9
+2024-06-28 08:57:03,035 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@50f96d6
+2024-06-28 08:57:22,724 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@2e17be18
+2024-06-28 08:57:30,588 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@7c63051f
+2024-06-28 09:23:41,605 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@5def18ba
+2024-06-28 09:24:16,834 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@295405cb
+2024-06-28 09:24:29,451 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@3afbf664
+2024-06-28 09:24:33,866 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@17709aa
+2024-06-28 10:13:45,087 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@360514c6
+2024-06-28 10:13:57,708 [INFO] - Admin deleted a dish: com.example.wigellsushi.model.Dishes@4fb09b68
+2024-06-28 10:17:37,886 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@4d5a5e17
+2024-06-29 00:45:55,300 [INFO] - Admin added a dish: com.example.wigellsushi.model.Dishes@42d99268

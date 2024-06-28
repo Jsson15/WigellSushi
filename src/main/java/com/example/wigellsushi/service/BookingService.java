@@ -6,38 +6,36 @@ import com.example.wigellsushi.repository.BookingsRepository;
 import com.example.wigellsushi.repository.DishBookingRepository;
 import com.example.wigellsushi.repository.RoomRepository;
 import com.example.wigellsushi.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class BookingService implements BookingServiceInterface {
+    private static final String EXCHANGE_RATE_API_URL = "https://v6.exchangerate-api.com/v6/fd910a7e3d1255ef612fb638/latest/SEK";
+
+    @Autowired
+    private MenyService menyService;
+
     @Autowired
     private BookingsRepository bookingsRepository;
 
     @Autowired
     private DishBookingRepository dishBookingRepository;
+
     @Autowired
     private RoomRepository roomRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private MenyService menyService;
-
-    @Override
     public Bookings bookRoom(Bookings booking) {
-
         BigDecimal totalPriceSEK = calculateTotalPriceSEK(booking);
         booking.setTotalPriceSek(totalPriceSEK);
 
@@ -46,7 +44,8 @@ public class BookingService implements BookingServiceInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Room room = roomRepository.findById(booking.getRoomID()).get();
+
+        Room room = roomRepository.findById(booking.getRoomID()).orElseThrow(() -> new RuntimeException("Room not found"));
 
         if (room.getIsBooked()) {
             throw new RuntimeException("This room is already booked");
@@ -64,7 +63,6 @@ public class BookingService implements BookingServiceInterface {
         }
     }
 
-    @Override
     public Bookings updateBooking(Bookings booking, int bookingID) {
         Bookings bookingToUpdate = bookingsRepository.findBookingsByBookingID(bookingID);
 
@@ -85,7 +83,7 @@ public class BookingService implements BookingServiceInterface {
         bookingsRepository.save(bookingToUpdate);
 
         for (DishBooking db : booking.getDishBooking()) {
-            db.setBooking(bookingToUpdate);
+            db.setBooking(booking);
         }
         dishBookingRepository.saveAll(booking.getDishBooking());
 
@@ -95,9 +93,14 @@ public class BookingService implements BookingServiceInterface {
         return bookingToUpdate;
     }
 
+    public List<Bookings> getAllBookings(int userID) {
+        return bookingsRepository.findBookingsByUser(userRepository.findById(userID).get());
+    }
+
     private BigDecimal calculateTotalPriceSEK(Bookings booking) {
-        BigDecimal totalPriceSEK = new BigDecimal(0);
+        BigDecimal totalPriceSEK = BigDecimal.ZERO;
         List<Dishes> dishesList = menyService.getAllDishes();
+
         for (Dishes dish : dishesList) {
             for (DishBooking dishBooking : booking.getDishBooking()) {
                 if (dishBooking.getDish().getDishID() == dish.getDishID()) {
@@ -106,53 +109,16 @@ public class BookingService implements BookingServiceInterface {
                 }
             }
         }
+
         return totalPriceSEK;
     }
 
     private BigDecimal calculateTotalPriceEuro(BigDecimal sek) throws IOException {
-        BigDecimal totalPriceEuro = new BigDecimal(0);
+        URL url = new URL(EXCHANGE_RATE_API_URL);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(url);
+        BigDecimal euroCurrency = rootNode.path("conversion_rates").path("EUR").decimalValue();
 
-        URL url = new URL("https://v6.exchangerate-api.com/v6/fd910a7e3d1255ef612fb638/latest/SEK");
-        String result = stream(url);
-
-        String[] lines = result.split("\\r?\\n|\\r");
-        Pattern p = Pattern.compile("(\\d.+\\d)");
-        Matcher matcher;
-        String s = "";
-
-        BigDecimal euroCurrency;
-
-        for (int i = 0; i < lines.length; i++) {
-            if (lines[i].contains("EUR")) {
-                matcher = p.matcher(lines[i]);
-                if (matcher.find()) {
-                    euroCurrency = new BigDecimal(matcher.group(1));
-                    totalPriceEuro = sek.multiply(euroCurrency);
-                    break;
-                }
-            }
-        }
-
-        return totalPriceEuro;
-    }
-
-    public static String stream(URL url) {
-        try (InputStream input = url.openStream()) {
-            InputStreamReader isr = new InputStreamReader(input);
-            BufferedReader reader = new BufferedReader(isr);
-            StringBuilder json = new StringBuilder();
-            int c;
-            while ((c = reader.read()) != -1) {
-                json.append((char) c);
-            }
-            return json.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<Bookings> getAllBookings(int userID) {
-        return bookingsRepository.findBookingsByUser(userRepository.findById(userID).get());
+        return sek.multiply(euroCurrency).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }
