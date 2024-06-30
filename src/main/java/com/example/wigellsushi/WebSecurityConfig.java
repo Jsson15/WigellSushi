@@ -42,8 +42,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .requestMatchers("/api/v3/customers").hasRole("ADMIN")
                 .requestMatchers("/api/v3/add-dish").hasRole("ADMIN")
-                .requestMatchers("/api/v3/**").permitAll()
+                .requestMatchers("/api/v3/deletedish/**").hasRole("ADMIN")
+                .requestMatchers("/api/v3/updateroom/**").hasRole("ADMIN")
+                .requestMatchers("/api/v3/allrooms").hasRole("ADMIN")
+                .requestMatchers("/api/v3/**").hasRole("USER")
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic();
 

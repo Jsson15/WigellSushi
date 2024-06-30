@@ -86,5 +86,3 @@ CREATE TABLE IF NOT EXISTS sushi_order_dish (
     FOREIGN KEY (order_id) REFERENCES sushi_customerorders(id),
     FOREIGN KEY (dish_id) REFERENCES sushi_dishes(dishID)
 );
-
-
